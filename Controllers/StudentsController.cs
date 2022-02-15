@@ -91,5 +91,22 @@ namespace StudentApi.Controllers
 
             return Ok(update);
         }
+        [HttpDelete]
+        public ActionResult DeleteStudent(int studentId)
+        {
+            var student = myConnect.Students.FirstOrDefault(s => s.Id == studentId); //select * from Students where Id=studentId;
+            if(student == null) 
+            {
+                return NotFound();
+            }
+
+            myConnect.Students.Remove(student); //delete from Students where Id=studentId;
+            var result = myConnect.SaveChanges();
+            if(result>0) 
+            {
+                return Ok("Student deleted successfully");
+            }
+            return BadRequest();
+        }
     }
 }
